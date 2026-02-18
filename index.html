@@ -12,14 +12,15 @@
   <h1>NovaBank</h1>
   <p class="subtitle">Secure Digital Banking</p>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
+  <form action="dashboard.html">
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Password" required>
 
-  <button onclick="login()">Sign In</button>
+    <button type="submit">Sign In</button>
+  </form>
 
   <p class="security">Protected by bank-grade encryption</p>
 </div>
 
-<script src="js/app.js"></script>
 </body>
 </html>
