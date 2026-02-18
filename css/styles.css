@@ -1,182 +1,113 @@
-/* Global Styles */
+/* ---------------- Body & Fonts ---------------- */
 body {
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: #f4f8fb;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: #1a1a1a;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin:0;
+  background:#f5f7fa;
 }
 
-/* Containers */
-.container, .dashboard, .login-container, .profile-container {
-  margin: 40px auto;
-  width: 90%;
-  max-width: 400px;
-  padding: 20px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.login-container:hover, .profile-container:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-}
-
-/* Header / Avatar / Notifications */
+/* ---------------- Header ---------------- */
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #003087;
-  color: white;
-  padding: 15px 20px;
-  border-radius: 12px;
-  margin: 15px auto;
-  max-width: 400px;
+  background:#0a2f5a;
+  color:white;
+  padding:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.header h1, .header h2 { margin:0; }
+.header button {
+  padding:10px 15px;
+  border-radius:8px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold;
+  background:#2563eb;
+  color:white;
+  transition:0.3s;
+}
+.header button:hover { opacity:0.85; }
+
+/* ---------------- Cards ---------------- */
+.card {
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  margin:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
 }
 
-.avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  margin-right: 15px;
+/* ---------------- Balance ---------------- */
+.balance {
+  font-size:32px;
+  font-weight:bold;
+  color:#0a2f5a;
+  margin-top:10px;
 }
 
-.header-info h2 { margin: 0; font-size: 1.2em; }
-.header-info p { margin: 0; font-size: 0.8em; color: #cfd8e0; }
-
-.header-right { position: relative; }
-.icon { width: 30px; height: 30px; cursor: pointer; }
-.notif-badge {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  background-color: #ff4757;
-  color: #fff;
-  font-size: 0.7em;
-  padding: 3px 6px;
-  border-radius: 50%;
-  font-weight: bold;
+/* ---------------- Buttons ---------------- */
+button {
+  cursor:pointer;
+  font-weight:bold;
+  border:none;
+  border-radius:8px;
+  padding:10px 15px;
+  margin:5px 5px 0 0;
+  transition:0.3s;
 }
+button.deposit { background:#16a34a; color:white; }
+button.withdraw { background:#dc2626; color:white; }
+button.send { background:#2563eb; color:white; }
+button:hover { opacity:0.85; }
 
-/* Titles */
-h1, h2, h3 { color: #003087; }
-
-/* Subtitles & Security */
-.subtitle, .security { font-size: 0.9em; color: #555; margin-top: 5px; }
-
-/* Inputs */
+/* ---------------- Forms ---------------- */
 input {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  margin: 12px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:1rem;
+}
+.container { width:90%; max-width:400px; margin:auto; padding-top:40px; }
+
+/* ---------------- Tables ---------------- */
+.table { width:100%; border-collapse: collapse; }
+.table th, .table td { text-align:left; padding:12px; }
+.table th {
+  background:#0a2f5a;
+  color:white;
+  border-radius:8px;
+}
+.table tr:nth-child(even){ background:#f3f4f6; }
+
+/* ---------------- Transactions ---------------- */
+.transactions {
+  margin-top:20px;
+  max-height:300px;
+  overflow-y:auto;
+}
+.tx {
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #ddd;
+  padding:8px 0;
+}
+.tx span { font-weight:500; }
+
+/* ---------------- Links ---------------- */
+.admin-link {
+  display:block;
+  margin:20px;
+  text-decoration:none;
+  font-weight:bold;
+  color:#0a2f5a;
 }
 
-/* Input validation animation */
-input.valid {
-  border-color: #00b894 !important;
-  box-shadow: 0 0 8px #00b894;
-}
-input.invalid {
-  border-color: #ff4d4d !important;
-  box-shadow: 0 0 8px #ff4d4d;
-}
+/* ---------------- Error Messages ---------------- */
+.error { color:red; text-align:center; margin-top:10px; font-weight:bold; }
 
-/* Buttons */
-button, .primary-btn, .secondary-btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-}
-.primary-btn {
-  background: linear-gradient(135deg, #1a73e8, #003087);
-  color: #fff;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-}
-.secondary-btn { background-color: #e0e0e0; color: #333; }
-
-/* Cards */
-.card { background: #fff; padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-.gradient-card {
-  background: linear-gradient(135deg, #003087, #1a73e8);
-  color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-}
-.gradient-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-}
-
-.account-number { font-size: 0.9em; margin-top: 5px; color: #d0e1ff; }
-.badge { display: inline-block; background-color: #00b894; color: #fff; font-size: 0.7em; padding: 4px 8px; border-radius: 6px; margin-top: 8px; }
-
-/* Strong Balance Styling */
-.strong-balance { font-size: 2.2em; font-weight: 800; margin: 10px 0; }
-.white-balance { color: #fff; }
-
-/* Transactions */
-.transaction-card {
-  background: #f9f9f9;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  text-align: left;
-  font-size: 0.95em;
-}
-
-/* Welcome Message */
-.welcome-msg { margin-top: 15px; margin-bottom: 10px; color: #003087; font-weight: 600; font-size: 1.3em; }
-
-/* Responsive */
-@media (max-width: 480px) {
-  .container, .dashboard, .header { margin: 20px auto; padding: 15px; }
-  input, button { padding: 10px; }
-}
-
-/* Dashboard action buttons spacing */
-.dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-
-/* Toast notifications */
-.toast {
-  visibility: hidden;
-  min-width: 200px;
-  background-color: #003087;
-  color: #fff;
-  text-align: center;
-  border-radius: 8px;
-  padding: 12px 20px;
-  position: fixed;
-  z-index: 1000;
-  left: 50%;
-  bottom: 50px;
-  transform: translateX(-50%);
-  font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-  opacity: 0;
-  transition: opacity 0.4s, bottom 0.4s;
-}
-
-.toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 80px;
+/* ---------------- Responsive ---------------- */
+@media(max-width:600px){
+  .table th, .table td, input, button { font-size:0.9rem; padding:8px; }
 }
