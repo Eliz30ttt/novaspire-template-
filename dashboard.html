@@ -4,153 +4,95 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaBank Dashboard</title>
-<link rel="stylesheet" href="css/styles.css">
 
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    transition: 0.3s;
-}
-
-:root {
-    --bg: #f3f4f6;
-    --card: white;
-    --text: #111;
-}
-
-.dark {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --text: #f1f5f9;
+    background: #f3f4f6;
 }
 
 .header {
-    padding: 20px;
     background: #1e3a8a;
     color: white;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
 }
 
-.toggle {
-    cursor: pointer;
+.card {
+    background: white;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
-.card-ui {
-    background: linear-gradient(135deg,#1e3a8a,#2563eb);
+.balance {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1e3a8a;
+}
+button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+}
+.logout {
+    background: #dc2626;
     color: white;
-    margin: 20px;
-    padding: 25px;
-    border-radius: 20px;
-}
-
-.balance-box {
-    background: var(--card);
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-}
-
-.actions {
-    display: grid;
-    grid-template-columns: repeat(4,1fr);
-    gap: 10px;
-    margin: 20px;
-}
-
-.action-btn {
-    background: var(--card);
-    padding: 15px;
-    border-radius: 12px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.transactions {
-    background: var(--card);
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-}
-
-.transaction {
-    padding: 10px 0;
-    border-bottom: 1px solid #ccc;
-}
-
-.icon {
-    margin-right: 8px;
 }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div id="welcomeText">Welcome</div>
-    <div class="toggle" onclick="toggleDark()">🌙</div>
+    <div id="welcome">Loading...</div>
+    <button class="logout" id="logoutBtn">Logout</button>
 </div>
 
-<div class="card-ui">
-    <div>NovaBank Platinum</div>
-    <h2 id="cardNumber">**** **** **** 4821</h2>
-    <div id="accountNumber">ACCT: 1029384756</div>
+<div class="card">
+    <h3>Account Balance</h3>
+    <div class="balance" id="balance">$0.00</div>
 </div>
 
-<div class="balance-box">
-    <h3>Balance</h3>
-    <h1 id="balance">$0.00</h1>
-</div>
+<script type="module">
+import {
+  auth,
+  db,
+  onAuthStateChanged,
+  signOut,
+  doc,
+  getDoc
+} from "./js/firebase.js";
 
-<div class="actions">
-    <div class="action-btn" onclick="location.href='send.html'">Send</div>
-    <div class="action-btn" onclick="location.href='receive.html'">Receive</div>
-    <div class="action-btn" onclick="location.href='add.html'">Add</div>
-    <div class="action-btn" onclick="location.href='request.html'">Request</div>
-</div>
+const welcome = document.getElementById("welcome");
+const balanceEl = document.getElementById("balance");
+const logoutBtn = document.getElementById("logoutBtn");
 
-<div class="transactions">
-    <h3>Recent Activity</h3>
-    <div id="transactionList"></div>
-</div>
+onAuthStateChanged(auth, async (user) => {
 
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-
-    const email = localStorage.getItem("userEmail");
-    if(!email){
+    if (!user) {
         window.location.href = "login.html";
         return;
     }
 
-    document.getElementById("welcomeText").innerText = "Welcome, " + email;
+    welcome.innerText = "Welcome, " + user.email;
 
-    let balance = parseFloat(localStorage.getItem("balance")) || 0;
-    document.getElementById("balance").innerText = "$" + balance.toFixed(2);
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
 
-    const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
-    const container = document.getElementById("transactionList");
-    container.innerHTML = "";
-
-    transactions.slice().reverse().forEach(tx => {
-        let div = document.createElement("div");
-        div.classList.add("transaction");
-
-        let icon = "💳";
-        if(tx.toLowerCase().includes("sent")) icon = "⬆️";
-        if(tx.toLowerCase().includes("received")) icon = "⬇️";
-        if(tx.toLowerCase().includes("added")) icon = "➕";
-
-        div.innerHTML = `<span class="icon">${icon}</span> ${tx}`;
-        container.appendChild(div);
-    });
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        balanceEl.innerText = "$" + data.balance.toFixed(2);
+    }
 });
 
-function toggleDark(){
-    document.body.classList.toggle("dark");
-}
+logoutBtn.addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login.html";
+});
 </script>
 
 </body>
