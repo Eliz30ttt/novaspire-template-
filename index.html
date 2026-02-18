@@ -3,113 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaBank - Client Login</title>
+<title>NovaBank - Digital Banking</title>
 <link rel="stylesheet" href="css/styles.css">
 <style>
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
     background: #f3f4f6;
+}
+
+/* NAVBAR */
+.navbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    height: 100vh;
-}
-.login-container {
+    padding: 15px 20px;
     background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    width: 90%;
-    max-width: 400px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-.login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
+
+.logo {
+    font-weight: bold;
+    font-size: 20px;
     color: #1e3a8a;
 }
-.input-group {
-    margin-bottom: 15px;
-}
-.input-group input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-}
-button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
+
+.nav-btn {
     background: #2563eb;
     color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: white;
+}
+
+.hero h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.hero button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    color: #1e3a8a;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
 }
-button:hover {
-    background: #1e40af;
-}
-.error {
-    color: red;
+
+/* FEATURES */
+.features {
+    padding: 40px 20px;
     text-align: center;
-    margin-top: 10px;
-    display: none;
+}
+
+.features h2 {
+    margin-bottom: 20px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+
+.feature {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* FOOTER */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+    font-size: 13px;
 }
 </style>
 </head>
 <body>
 
-<div class="login-container">
-    <h2>NovaBank Login</h2>
-    <div class="input-group">
-        <input type="email" id="email" placeholder="Email">
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="Password">
-    </div>
-    <button id="loginBtn">Login</button>
-    <div class="error" id="errorMsg">Invalid credentials</div>
+<div class="navbar">
+    <div class="logo">NovaBank</div>
+    <a class="nav-btn" href="login.html">Login</a>
 </div>
 
-<script src="js/app.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", function(){
-    const loginBtn = document.getElementById("loginBtn");
-    const errorMsg = document.getElementById("errorMsg");
+<div class="hero">
+    <h1>Modern Banking for the Digital Age</h1>
+    <p>Send, receive, and manage your money securely anytime, anywhere.</p>
+    <button onclick="location.href='login.html'">Get Started</button>
+</div>
 
-    loginBtn.addEventListener("click", function(){
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+<div class="features">
+    <h2>Why Choose NovaBank?</h2>
 
-        if(!email || !password){
-            errorMsg.innerText = "Please enter email and password";
-            errorMsg.style.display = "block";
-            return;
-        }
+    <div class="feature-grid">
+        <div class="feature">
+            <h3>Instant Transfers</h3>
+            <p>Send and receive money in seconds.</p>
+        </div>
 
-        // Mock login: password must be "1234"
-        if(password === "1234"){
-            localStorage.setItem("userEmail", email);
-            // Initialize balance if not exist
-            if(!localStorage.getItem("balance") || isNaN(localStorage.getItem("balance"))){
-                localStorage.setItem("balance", "5250.00");
-            }
-            // Initialize transactions if not exist
-            if(!localStorage.getItem("transactions")){
-                localStorage.setItem("transactions", JSON.stringify([
-                    "Received $2,000.00 from Salary",
-                    "Sent $120.00 to John"
-                ]));
-            }
-            window.location.href = "dashboard.html";
-        } else {
-            errorMsg.innerText = "Invalid credentials";
-            errorMsg.style.display = "block";
-        }
-    });
-});
-</script>
+        <div class="feature">
+            <h3>Secure Accounts</h3>
+            <p>Advanced encryption protects your funds and data.</p>
+        </div>
+
+        <div class="feature">
+            <h3>Mobile First</h3>
+            <p>Designed for a seamless experience on any device.</p>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    © 2026 NovaBank. All rights reserved.
+</div>
 
 </body>
 </html>
