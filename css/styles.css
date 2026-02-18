@@ -9,7 +9,7 @@ body {
 }
 
 /* Containers */
-.container, .dashboard {
+.container, .dashboard, .login-container {
   margin: 40px auto;
   width: 90%;
   max-width: 400px;
@@ -17,6 +17,13 @@ body {
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s; /* Hover effect */
+}
+
+/* Login card hover */
+.login-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 /* Header / Avatar / Notifications */
@@ -167,6 +174,11 @@ button, .primary-btn, .secondary-btn {
   font-size: 2.2em;
   font-weight: 800;
   margin: 10px 0;
+}
+
+/* White balance color */
+.white-balance {
+  color: #fff;
 }
 
 /* Transactions */
