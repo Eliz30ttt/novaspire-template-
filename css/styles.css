@@ -19,10 +19,11 @@ body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* Header / Avatar */
+/* Header / Avatar / Notifications */
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background-color: #003087;
   color: white;
   padding: 15px 20px;
@@ -47,6 +48,28 @@ body {
   margin: 0;
   font-size: 0.8em;
   color: #cfd8e0;
+}
+
+.header-right {
+  position: relative;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff4757;
+  color: #fff;
+  font-size: 0.7em;
+  padding: 3px 6px;
+  border-radius: 50%;
+  font-weight: bold;
 }
 
 /* Titles */
@@ -139,11 +162,18 @@ button, .primary-btn, .secondary-btn {
   margin-top: 8px;
 }
 
+/* Strong Balance Styling */
+.strong-balance {
+  font-size: 2.2em;
+  font-weight: 800;
+  margin: 10px 0;
+}
+
 /* Transactions */
 .transaction-card {
   background: #f9f9f9;
   margin: 10px 0;
-  padding: 10px;
+  padding: 12px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   text-align: left;
@@ -159,4 +189,4 @@ button, .primary-btn, .secondary-btn {
   input, button {
     padding: 10px;
   }
-  }
+}
