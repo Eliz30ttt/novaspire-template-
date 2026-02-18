@@ -1,61 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaBank Dashboard</title>
 
 <style>
-body {
-    font-family: Arial;
-    margin: 0;
-    background: #f3f4f6;
-}
-
-.header {
-    background: #1e3a8a;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-
-.card {
-    background: white;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.balance {
-    font-size: 32px;
-    font-weight: bold;
-    color: #1e3a8a;
-}
-button {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-}
-.logout {
-    background: #dc2626;
-    color: white;
-}
+body { font-family: Arial; margin:0; background:#f3f4f6; }
+.header { background:#1e3a8a; color:white; padding:20px; display:flex; justify-content:space-between; }
+.card { background:white; margin:20px; padding:20px; border-radius:15px; }
+.balance { font-size:30px; font-weight:bold; }
+.actions button { margin:5px; padding:10px; border-radius:8px; border:none; cursor:pointer; }
+.transactions { margin-top:20px; }
+.tx { border-bottom:1px solid #ddd; padding:8px 0; }
+.admin-link { margin:20px; display:block; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div id="welcome">Loading...</div>
-    <button class="logout" id="logoutBtn">Logout</button>
+  <div id="welcome"></div>
+  <button id="logoutBtn">Logout</button>
 </div>
 
 <div class="card">
-    <h3>Account Balance</h3>
-    <div class="balance" id="balance">$0.00</div>
+  <h3>Balance</h3>
+  <div class="balance" id="balance">$0.00</div>
 </div>
+
+<div class="card actions">
+  <h3>Actions</h3>
+  <button onclick="deposit()">Deposit</button>
+  <button onclick="withdraw()">Withdraw</button>
+  <button onclick="sendMoney()">Send</button>
+</div>
+
+<div class="card">
+  <h3>Transactions</h3>
+  <div id="transactions"></div>
+</div>
+
+<a href="admin.html" class="admin-link">Admin Panel</a>
 
 <script type="module">
 import {
@@ -64,34 +49,121 @@ import {
   onAuthStateChanged,
   signOut,
   doc,
-  getDoc
+  getDoc,
+  updateDoc
 } from "./js/firebase.js";
+
+import {
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const welcome = document.getElementById("welcome");
 const balanceEl = document.getElementById("balance");
+const txContainer = document.getElementById("transactions");
 const logoutBtn = document.getElementById("logoutBtn");
 
+let currentUser;
+let currentData;
+
 onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "login.html";
+    return;
+  }
 
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
+  currentUser = user;
+  welcome.innerText = "Welcome, " + user.email;
 
-    welcome.innerText = "Welcome, " + user.email;
-
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        balanceEl.innerText = "$" + data.balance.toFixed(2);
-    }
+  await loadUserData();
 });
 
-logoutBtn.addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "login.html";
+async function loadUserData(){
+  const snap = await getDoc(doc(db,"users",currentUser.uid));
+  currentData = snap.data();
+
+  balanceEl.innerText = "$" + currentData.balance.toFixed(2);
+
+  txContainer.innerHTML = "";
+  (currentData.transactions || []).slice().reverse().forEach(tx=>{
+    txContainer.innerHTML += `<div class="tx">${tx.type.toUpperCase()} - $${tx.amount}</div>`;
+  });
+}
+
+window.deposit = async function(){
+  const amount = parseFloat(prompt("Deposit amount:"));
+  if(!amount) return;
+
+  currentData.balance += amount;
+  addTransaction("deposit",amount);
+
+  await save();
+}
+
+window.withdraw = async function(){
+  const amount = parseFloat(prompt("Withdraw amount:"));
+  if(!amount || amount > currentData.balance) return;
+
+  currentData.balance -= amount;
+  addTransaction("withdraw",amount);
+
+  await save();
+}
+
+window.sendMoney = async function(){
+  const email = prompt("Send to email:");
+  const amount = parseFloat(prompt("Amount:"));
+  if(!email || !amount || amount > currentData.balance) return;
+
+  const q = query(collection(db,"users"), where("email","==",email));
+  const querySnap = await getDocs(q);
+
+  if(querySnap.empty){
+    alert("User not found");
+    return;
+  }
+
+  const receiverDoc = querySnap.docs[0];
+  const receiverData = receiverDoc.data();
+
+  receiverData.balance += amount;
+
+  await updateDoc(receiverDoc.ref, {
+    balance: receiverData.balance,
+    transactions: [...(receiverData.transactions||[]), {
+      type:"receive",
+      amount:amount
+    }]
+  });
+
+  currentData.balance -= amount;
+  addTransaction("send",amount);
+
+  await save();
+}
+
+function addTransaction(type,amount){
+  if(!currentData.transactions) currentData.transactions=[];
+  currentData.transactions.push({
+    type:type,
+    amount:amount
+  });
+}
+
+async function save(){
+  await updateDoc(doc(db,"users",currentUser.uid),{
+    balance: currentData.balance,
+    transactions: currentData.transactions
+  });
+
+  await loadUserData();
+}
+
+logoutBtn.addEventListener("click", async()=>{
+  await signOut(auth);
+  window.location.href="login.html";
 });
 </script>
 
