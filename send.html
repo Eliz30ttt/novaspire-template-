@@ -47,6 +47,38 @@ button {
 button:hover {
     background: #16a34a;
 }
+
+/* Toast */
+.toast {
+    visibility: hidden;
+    min-width: 200px;
+    margin-left: -100px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 16px;
+    position: fixed;
+    z-index: 100;
+    left: 50%;
+    bottom: 30px;
+    font-size: 14px;
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2s;
+}
+
+@keyframes fadein {
+    from {bottom: 10px; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 10px; opacity: 0;}
+}
 </style>
 </head>
 <body>
@@ -70,15 +102,50 @@ button:hover {
 
 </div>
 
+<!-- Toast notification -->
+<div id="toast" class="toast"></div>
+
 <script src="js/app.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-    // Ensure the balance shows up if needed
-    const balanceEl = document.getElementById("balance");
-    if(balanceEl) {
-        const balance = parseFloat(localStorage.getItem("balance")) || 0;
-        balanceEl.innerText = "$" + balance.toFixed(2);
-    }
+
+    // Send Money Logic
+    const sendBtn = document.getElementById("sendBtn");
+
+    sendBtn.addEventListener("click", function() {
+        const recipient = document.getElementById("recipient").value.trim();
+        const amount = parseFloat(document.getElementById("amount").value);
+
+        if (!recipient || !amount || amount <= 0) {
+            alert("Enter valid recipient and amount");
+            return;
+        }
+
+        let balance = parseFloat(localStorage.getItem("balance")) || 0;
+        if(amount > balance){
+            alert("Insufficient funds");
+            return;
+        }
+
+        // Update balance
+        balance -= amount;
+        localStorage.setItem("balance", balance.toFixed(2));
+
+        // Add transaction
+        let transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
+        transactions.unshift(`Sent $${amount.toFixed(2)} to ${recipient}`);
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+
+        // Show confirmation
+        const toast = document.getElementById("toast");
+        toast.innerText = `$${amount.toFixed(2)} sent to ${recipient}`;
+        toast.className = "toast show";
+        setTimeout(()=>{ toast.className = "toast"; }, 2500);
+
+        // Clear inputs
+        document.getElementById("recipient").value = "";
+        document.getElementById("amount").value = "";
+    });
 });
 </script>
 
