@@ -1,4 +1,3 @@
-
 // Initialize balance and transactions if first time
 if (!localStorage.getItem("balance")) {
   localStorage.setItem("balance", 4820.55);
@@ -7,17 +6,14 @@ if (!localStorage.getItem("balance")) {
 
 // Login function
 function login() {
-  // Simple mock login: any email/password works
   window.location.href = "dashboard.html";
 }
 
 // Load dashboard info
 function loadDashboard() {
-  // Update balance
   document.getElementById("balance").innerText =
     "$" + parseFloat(localStorage.getItem("balance")).toFixed(2);
 
-  // Load transactions
   const transactions = JSON.parse(localStorage.getItem("transactions"));
   const container = document.getElementById("transactions");
   container.innerHTML = "";
@@ -54,17 +50,14 @@ function sendMoney() {
     return;
   }
 
-  // Deduct balance
   balance -= amount;
   localStorage.setItem("balance", balance);
 
-  // Add transaction
   const transactions = JSON.parse(localStorage.getItem("transactions"));
   const recipient = document.getElementById("recipient").value || "Unknown";
   const newTx = `Sent $${amount.toFixed(2)} to ${recipient}`;
   transactions.unshift(newTx);
   localStorage.setItem("transactions", JSON.stringify(transactions));
 
-  // Redirect to dashboard
   window.location.href = "dashboard.html";
 }
