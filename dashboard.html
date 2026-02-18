@@ -5,94 +5,103 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaBank Dashboard</title>
 <link rel="stylesheet" href="css/styles.css">
+
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: #f3f4f6;
     margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    transition: 0.3s;
+}
+
+:root {
+    --bg: #f3f4f6;
+    --card: white;
+    --text: #111;
+}
+
+.dark {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f1f5f9;
 }
 
 .header {
+    padding: 20px;
     background: #1e3a8a;
     color: white;
-    padding: 20px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    display: flex;
+    justify-content: space-between;
 }
 
-.header h2 {
-    margin: 0;
-    font-size: 18px;
+.toggle {
+    cursor: pointer;
+}
+
+.card-ui {
+    background: linear-gradient(135deg,#1e3a8a,#2563eb);
+    color: white;
+    margin: 20px;
+    padding: 25px;
+    border-radius: 20px;
 }
 
 .balance-box {
-    background: white;
+    background: var(--card);
     margin: 20px;
     padding: 20px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    text-align: center;
-}
-
-.balance-title {
-    color: #64748b;
-    font-size: 14px;
-}
-
-.balance-amount {
-    font-size: 32px;
-    font-weight: bold;
-    margin-top: 5px;
-    color: #1e3a8a;
 }
 
 .actions {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4,1fr);
     gap: 10px;
     margin: 20px;
 }
 
 .action-btn {
-    background: white;
-    border-radius: 12px;
+    background: var(--card);
     padding: 15px;
+    border-radius: 12px;
     text-align: center;
-    font-size: 13px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
     cursor: pointer;
 }
 
 .transactions {
-    background: white;
+    background: var(--card);
     margin: 20px;
-    padding: 15px;
+    padding: 20px;
     border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 .transaction {
     padding: 10px 0;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid #ccc;
 }
 
-.transaction:last-child {
-    border-bottom: none;
+.icon {
+    margin-right: 8px;
 }
-
-.sent { color: #dc2626; }
-.received { color: #16a34a; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <h2 id="welcomeText">Welcome</h2>
+    <div id="welcomeText">Welcome</div>
+    <div class="toggle" onclick="toggleDark()">🌙</div>
+</div>
+
+<div class="card-ui">
+    <div>NovaBank Platinum</div>
+    <h2 id="cardNumber">**** **** **** 4821</h2>
+    <div id="accountNumber">ACCT: 1029384756</div>
 </div>
 
 <div class="balance-box">
-    <div class="balance-title">Current Balance</div>
-    <div class="balance-amount" id="balance">$0.00</div>
+    <h3>Balance</h3>
+    <h1 id="balance">$0.00</h1>
 </div>
 
 <div class="actions">
@@ -103,52 +112,45 @@ body {
 </div>
 
 <div class="transactions">
-    <h3>Recent Transactions</h3>
+    <h3>Recent Activity</h3>
     <div id="transactionList"></div>
 </div>
 
-<div class="actions" style="grid-template-columns: 1fr;">
-    <div class="action-btn" onclick="location.href='profile.html'">Profile</div>
-</div>
-
-<script src="js/app.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function(){
 
-    // Check login
     const email = localStorage.getItem("userEmail");
     if(!email){
         window.location.href = "login.html";
         return;
     }
 
-    // Welcome message
     document.getElementById("welcomeText").innerText = "Welcome, " + email;
 
-    // Load balance
     let balance = parseFloat(localStorage.getItem("balance")) || 0;
     document.getElementById("balance").innerText = "$" + balance.toFixed(2);
 
-    // Load transactions
-    const transactionList = document.getElementById("transactionList");
     const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    const container = document.getElementById("transactionList");
+    container.innerHTML = "";
 
-    transactionList.innerHTML = "";
-
-    transactions.slice().reverse().forEach(function(tx){
-        const div = document.createElement("div");
+    transactions.slice().reverse().forEach(tx => {
+        let div = document.createElement("div");
         div.classList.add("transaction");
 
-        if(tx.toLowerCase().includes("sent")){
-            div.classList.add("sent");
-        } else if(tx.toLowerCase().includes("received") || tx.toLowerCase().includes("added")){
-            div.classList.add("received");
-        }
+        let icon = "💳";
+        if(tx.toLowerCase().includes("sent")) icon = "⬆️";
+        if(tx.toLowerCase().includes("received")) icon = "⬇️";
+        if(tx.toLowerCase().includes("added")) icon = "➕";
 
-        div.innerText = tx;
-        transactionList.appendChild(div);
+        div.innerHTML = `<span class="icon">${icon}</span> ${tx}`;
+        container.appendChild(div);
     });
 });
+
+function toggleDark(){
+    document.body.classList.toggle("dark");
+}
 </script>
 
 </body>
