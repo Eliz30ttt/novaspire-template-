@@ -8,12 +8,16 @@
 </head>
 <body onload="initApp()">
 
-<!-- Header / Banner -->
+<!-- Header / Banner with Logo and Notifications -->
 <div class="header">
   <img src="https://i.pravatar.cc/60?img=12" alt="Avatar" class="avatar">
   <div class="header-info">
     <h2>Kelvin Brooks</h2>
     <p id="lastLogin"></p>
+  </div>
+  <div class="header-right">
+    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827301.png" alt="Notifications" class="icon">
+    <span class="notif-badge" id="notifBadge">3</span>
   </div>
 </div>
 
@@ -21,7 +25,7 @@
 <div class="dashboard" id="dashboardSection">
   <div class="card gradient-card">
     <h3>Current Balance</h3>
-    <p id="balance">$0.00</p>
+    <p id="balance" class="strong-balance">$0.00</p>
     <p class="account-number">Account: **** **** **** 4821</p>
     <span class="badge">FDIC-insured</span>
   </div>
@@ -54,6 +58,7 @@ function initApp() {
     localStorage.setItem("transactions", JSON.stringify([]));
   }
   updateLastLogin();
+  updateNotifications();
   loadDashboard();
 }
 
@@ -73,7 +78,7 @@ function loadDashboard() {
   transactions.forEach(tx => {
     const div = document.createElement("div");
     div.classList.add("transaction-card");
-    div.innerText = tx;
+    div.innerHTML = `💸 ${tx}`; // Added subtle icon for each transaction
     container.appendChild(div);
   });
 }
@@ -116,6 +121,12 @@ document.getElementById("sendBtn")?.addEventListener("click", function() {
 
   showDashboard();
 });
+
+// Random notifications badge
+function updateNotifications() {
+  const notifCount = Math.floor(Math.random() * 5) + 1;
+  document.getElementById("notifBadge").innerText = notifCount;
+}
 </script>
 
 </body>
