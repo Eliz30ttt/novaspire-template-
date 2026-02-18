@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>NovaBank Admin</title>
-<style>
-body { font-family: Arial; padding: 20px; }
-</style>
+<title>Admin Panel</title>
 </head>
 <body>
 
-<h2>Admin Panel</h2>
-<p>Total Balance in System:</p>
-<h1 id="total">$0.00</h1>
+<h2>All Users</h2>
+<div id="users"></div>
 
-<script>
-let balance = parseFloat(localStorage.getItem("balance")) || 0;
-document.getElementById("total").innerText = "$" + balance.toFixed(2);
+<script type="module">
+import { db } from "./js/firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const container = document.getElementById("users");
+
+const querySnap = await getDocs(collection(db,"users"));
+
+querySnap.forEach(doc=>{
+  const data = doc.data();
+  container.innerHTML += `
+    <div>
+      ${data.email} — $${data.balance}
+    </div>
+  `;
+});
 </script>
 
 </body>
