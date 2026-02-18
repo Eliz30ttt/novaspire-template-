@@ -9,7 +9,7 @@
 <body onload="initApp()">
 
 <!-- Header / Banner with Logo and Notifications -->
-<div class="header">
+<div class="header" id="headerSection">
   <img src="https://i.pravatar.cc/60?img=12" alt="Avatar" class="avatar">
   <div class="header-info">
     <h2>Kelvin Brooks</h2>
@@ -25,7 +25,7 @@
 <div class="dashboard" id="dashboardSection">
   <div class="card gradient-card">
     <h3>Current Balance</h3>
-    <p id="balance" class="strong-balance">$0.00</p>
+    <p id="balance" class="strong-balance white-balance">$0.00</p>
     <p class="account-number">Account: **** **** **** 4821</p>
     <span class="badge">FDIC-insured</span>
   </div>
@@ -78,7 +78,7 @@ function loadDashboard() {
   transactions.forEach(tx => {
     const div = document.createElement("div");
     div.classList.add("transaction-card");
-    div.innerHTML = `💸 ${tx}`; // Added subtle icon for each transaction
+    div.innerHTML = `💸 ${tx}`;
     container.appendChild(div);
   });
 }
@@ -86,11 +86,13 @@ function loadDashboard() {
 function showSend() {
   document.getElementById("dashboardSection").style.display = "none";
   document.getElementById("sendSection").style.display = "block";
+  document.getElementById("headerSection").style.display = "none"; // Hide avatar + notifications
 }
 
 function showDashboard() {
   document.getElementById("sendSection").style.display = "none";
   document.getElementById("dashboardSection").style.display = "block";
+  document.getElementById("headerSection").style.display = "flex"; // Show header again
   loadDashboard();
 }
 
