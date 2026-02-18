@@ -8,7 +8,7 @@
 </head>
 <body onload="initApp()">
 
-<!-- Header / Banner with Logo and Notifications -->
+<!-- Header / Banner with Avatar + Notifications -->
 <div class="header" id="headerSection">
   <img src="https://i.pravatar.cc/60?img=12" alt="Avatar" class="avatar">
   <div class="header-info">
@@ -18,11 +18,14 @@
   <div class="header-right">
     <img src="https://cdn-icons-png.flaticon.com/512/1827/1827301.png" alt="Notifications" class="icon">
     <span class="notif-badge" id="notifBadge">3</span>
+    <button class="secondary-btn" onclick="goProfile()" style="margin-left:10px;">Profile</button>
   </div>
 </div>
 
 <!-- Dashboard Section -->
 <div class="dashboard" id="dashboardSection">
+  <h2 class="welcome-msg">Welcome, Kelvin Brooks</h2>
+  
   <div class="card gradient-card">
     <h3>Current Balance</h3>
     <p id="balance" class="strong-balance white-balance">$0.00</p>
@@ -86,14 +89,18 @@ function loadDashboard() {
 function showSend() {
   document.getElementById("dashboardSection").style.display = "none";
   document.getElementById("sendSection").style.display = "block";
-  document.getElementById("headerSection").style.display = "none"; // Hide avatar + notifications
+  document.getElementById("headerSection").style.display = "none"; // hide avatar + notifications
 }
 
 function showDashboard() {
   document.getElementById("sendSection").style.display = "none";
   document.getElementById("dashboardSection").style.display = "block";
-  document.getElementById("headerSection").style.display = "flex"; // Show header again
+  document.getElementById("headerSection").style.display = "flex";
   loadDashboard();
+}
+
+function goProfile() {
+  window.location.href = "profile.html";
 }
 
 document.getElementById("sendBtn")?.addEventListener("click", function() {
@@ -132,4 +139,4 @@ function updateNotifications() {
 </script>
 
 </body>
-</html>
+  </html>
