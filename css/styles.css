@@ -20,7 +20,6 @@ body {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Hover for login & profile cards */
 .login-container:hover, .profile-container:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
@@ -46,27 +45,11 @@ body {
   margin-right: 15px;
 }
 
-.header-info h2 {
-  margin: 0;
-  font-size: 1.2em;
-}
+.header-info h2 { margin: 0; font-size: 1.2em; }
+.header-info p { margin: 0; font-size: 0.8em; color: #cfd8e0; }
 
-.header-info p {
-  margin: 0;
-  font-size: 0.8em;
-  color: #cfd8e0;
-}
-
-.header-right {
-  position: relative;
-}
-
-.icon {
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-}
-
+.header-right { position: relative; }
+.icon { width: 30px; height: 30px; cursor: pointer; }
 .notif-badge {
   position: absolute;
   top: -5px;
@@ -80,16 +63,10 @@ body {
 }
 
 /* Titles */
-h1, h2, h3 {
-  color: #003087;
-}
+h1, h2, h3 { color: #003087; }
 
 /* Subtitles & Security */
-.subtitle, .security {
-  font-size: 0.9em;
-  color: #555;
-  margin-top: 5px;
-}
+.subtitle, .security { font-size: 0.9em; color: #555; margin-top: 5px; }
 
 /* Inputs */
 input {
@@ -100,6 +77,17 @@ input {
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Input validation animation */
+input.valid {
+  border-color: #00b894 !important;
+  box-shadow: 0 0 8px #00b894;
+}
+input.invalid {
+  border-color: #ff4d4d !important;
+  box-shadow: 0 0 8px #ff4d4d;
 }
 
 /* Buttons */
@@ -112,32 +100,19 @@ button, .primary-btn, .secondary-btn {
   cursor: pointer;
   border: none;
 }
-
 .primary-btn {
   background: linear-gradient(135deg, #1a73e8, #003087);
   color: #fff;
   transition: transform 0.15s, box-shadow 0.15s;
 }
-
 .primary-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
-
-.secondary-btn {
-  background-color: #e0e0e0;
-  color: #333;
-}
+.secondary-btn { background-color: #e0e0e0; color: #333; }
 
 /* Cards */
-.card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
+.card { background: #fff; padding: 20px; border-radius: 12px; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 .gradient-card {
   background: linear-gradient(135deg, #003087, #1a73e8);
   color: #fff;
@@ -145,41 +120,18 @@ button, .primary-btn, .secondary-btn {
   border-radius: 12px;
   margin: 20px 0;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .gradient-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.25);
 }
 
-.account-number {
-  font-size: 0.9em;
-  margin-top: 5px;
-  color: #d0e1ff;
-}
-
-.badge {
-  display: inline-block;
-  background-color: #00b894;
-  color: #fff;
-  font-size: 0.7em;
-  padding: 4px 8px;
-  border-radius: 6px;
-  margin-top: 8px;
-}
+.account-number { font-size: 0.9em; margin-top: 5px; color: #d0e1ff; }
+.badge { display: inline-block; background-color: #00b894; color: #fff; font-size: 0.7em; padding: 4px 8px; border-radius: 6px; margin-top: 8px; }
 
 /* Strong Balance Styling */
-.strong-balance {
-  font-size: 2.2em;
-  font-weight: 800;
-  margin: 10px 0;
-}
-
-/* White balance color */
-.white-balance {
-  color: #fff;
-}
+.strong-balance { font-size: 2.2em; font-weight: 800; margin: 10px 0; }
+.white-balance { color: #fff; }
 
 /* Transactions */
 .transaction-card {
@@ -193,21 +145,13 @@ button, .primary-btn, .secondary-btn {
 }
 
 /* Welcome Message */
-.welcome-msg {
-  margin-top: 15px;
-  margin-bottom: 10px;
-  color: #003087;
-  font-weight: 600;
-  font-size: 1.3em;
-}
+.welcome-msg { margin-top: 15px; margin-bottom: 10px; color: #003087; font-weight: 600; font-size: 1.3em; }
 
 /* Responsive */
 @media (max-width: 480px) {
-  .container, .dashboard, .header {
-    margin: 20px auto;
-    padding: 15px;
-  }
-  input, button {
-    padding: 10px;
-  }
+  .container, .dashboard, .header { margin: 20px auto; padding: 15px; }
+  input, button { padding: 10px; }
 }
+
+/* Dashboard action buttons spacing */
+.dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
