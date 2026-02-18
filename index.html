@@ -1,26 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NovaBank - Login</title>
-  <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NovaBank Login</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #2563eb, #1e3a8a);
+}
+
+.login-box {
+    background: #0f172a;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    color: white;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border-radius: 10px;
+    border: none;
+    background: #22c55e;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.login-box button:hover {
+    background: #16a34a;
+}
+</style>
 </head>
 <body>
 
-<div class="container login-container">
-  <img src="https://i.pravatar.cc/80?img=12" alt="NovaBank Logo" class="avatar" style="margin-bottom:15px;">
-  <h1>NovaBank</h1>
-  <p class="subtitle">Secure Digital Banking</p>
-
-  <form action="dashboard.html">
-    <input type="email" placeholder="Email" required>
-    <input type="password" placeholder="Password" required>
-    <button type="submit" class="primary-btn">Sign In</button>
-  </form>
-
-  <p class="security">Protected by bank-grade encryption</p>
+<div class="login-container">
+    <div class="login-box">
+        <h2>NovaBank</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginBtn">Login</button>
+    </div>
 </div>
+
+<script src="js/app.js"></script>
+<script>
+document.getElementById("loginBtn").addEventListener("click", function() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if(email === "" || password === "") {
+        alert("Enter valid credentials");
+        return;
+    }
+
+    // Mock login: save email in LocalStorage
+    localStorage.setItem("userEmail", email);
+
+    // Redirect to dashboard
+    window.location.href = "dashboard.html";
+});
+</script>
 
 </body>
 </html>
