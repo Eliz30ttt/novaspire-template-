@@ -8,7 +8,7 @@
 </head>
 <body onload="initApp()">
 
-<!-- Header / Banner with Avatar + Notifications -->
+<!-- Header -->
 <div class="header" id="headerSection">
   <img src="https://i.pravatar.cc/60?img=12" alt="Avatar" class="avatar">
   <div class="header-info">
@@ -22,7 +22,7 @@
   </div>
 </div>
 
-<!-- Dashboard Section -->
+<!-- Dashboard -->
 <div class="dashboard" id="dashboardSection">
   <h2 class="welcome-msg">Welcome, Kelvin Brooks</h2>
   
@@ -39,7 +39,7 @@
   <div id="transactions"></div>
 </div>
 
-<!-- Send Money Section -->
+<!-- Send Money -->
 <div class="container" id="sendSection" style="display:none;">
   <h2>Send Money</h2>
 
@@ -58,7 +58,10 @@ function initApp() {
     localStorage.setItem("balance", "4820.55");
   }
   if(!localStorage.getItem("transactions")) {
-    localStorage.setItem("transactions", JSON.stringify([]));
+    localStorage.setItem("transactions", JSON.stringify([
+      "Received $120.00 from Alice",
+      "Sent $50.00 to Bob"
+    ]));
   }
   updateLastLogin();
   updateNotifications();
@@ -78,10 +81,15 @@ function loadDashboard() {
   const transactions = JSON.parse(localStorage.getItem("transactions") || "[]");
   const container = document.getElementById("transactions");
   container.innerHTML = "";
+
   transactions.forEach(tx => {
     const div = document.createElement("div");
     div.classList.add("transaction-card");
-    div.innerHTML = `💸 ${tx}`;
+
+    let isSent = tx.toLowerCase().includes("sent");
+    div.innerHTML = `${isSent ? '🔴' : '🟢'} ${tx}`;
+    div.style.color = isSent ? "#ff4d4d" : "#00b894";
+
     container.appendChild(div);
   });
 }
@@ -89,7 +97,7 @@ function loadDashboard() {
 function showSend() {
   document.getElementById("dashboardSection").style.display = "none";
   document.getElementById("sendSection").style.display = "block";
-  document.getElementById("headerSection").style.display = "none"; // hide avatar + notifications
+  document.getElementById("headerSection").style.display = "none";
 }
 
 function showDashboard() {
@@ -131,7 +139,7 @@ document.getElementById("sendBtn")?.addEventListener("click", function() {
   showDashboard();
 });
 
-// Random notifications badge
+// Random notifications
 function updateNotifications() {
   const notifCount = Math.floor(Math.random() * 5) + 1;
   document.getElementById("notifBadge").innerText = notifCount;
@@ -139,4 +147,4 @@ function updateNotifications() {
 </script>
 
 </body>
-  </html>
+</html>
