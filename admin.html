@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>NovaBank Admin</title>
+<style>
+body { font-family: Arial; padding: 20px; }
+</style>
+</head>
+<body>
+
+<h2>Admin Panel</h2>
+<p>Total Balance in System:</p>
+<h1 id="total">$0.00</h1>
+
+<script>
+let balance = parseFloat(localStorage.getItem("balance")) || 0;
+document.getElementById("total").innerText = "$" + balance.toFixed(2);
+</script>
+
+</body>
+</html>
