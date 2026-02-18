@@ -1,1 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaBank - Profile</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
 
+<div class="container profile-container">
+  <img src="https://i.pravatar.cc/100?img=12" alt="Profile Avatar" class="avatar" style="margin-bottom:15px;">
+  <h2>Kelvin Brooks</h2>
+  <p>Email: kelvin.brooks@example.com</p>
+  <p>Account Number: **** **** **** 4821</p>
+  <p>Current Balance: <span id="profileBalance">$0.00</span></p>
+  <span class="badge">FDIC-insured</span>
+
+  <button class="primary-btn" onclick="backDashboard()">Back to Dashboard</button>
+</div>
+
+<script>
+function backDashboard() {
+  window.location.href = "dashboard.html";
+}
+
+// Load balance from localStorage
+window.onload = function() {
+  const balance = parseFloat(localStorage.getItem("balance")) || 0;
+  document.getElementById("profileBalance").innerText = "$" + balance.toFixed(2);
+}
+</script>
+
+</body>
+</html>
