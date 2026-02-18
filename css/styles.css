@@ -1,3 +1,24 @@
+/* Global Styles */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f8fb;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #1a1a1a;
+}
+
+/* Containers */
+.container, .dashboard {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
 /* Header / Avatar */
 .header {
   display: flex;
@@ -27,3 +48,115 @@
   font-size: 0.8em;
   color: #cfd8e0;
 }
+
+/* Titles */
+h1, h2, h3 {
+  color: #003087;
+}
+
+/* Subtitles & Security */
+.subtitle, .security {
+  font-size: 0.9em;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* Inputs */
+input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Buttons */
+button, .primary-btn, .secondary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, #1a73e8, #003087);
+  color: #fff;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.secondary-btn {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+/* Cards */
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.gradient-card {
+  background: linear-gradient(135deg, #003087, #1a73e8);
+  color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.gradient-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+.account-number {
+  font-size: 0.9em;
+  margin-top: 5px;
+  color: #d0e1ff;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #00b894;
+  color: #fff;
+  font-size: 0.7em;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+/* Transactions */
+.transaction-card {
+  background: #f9f9f9;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  text-align: left;
+  font-size: 0.95em;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container, .dashboard, .header {
+    margin: 20px auto;
+    padding: 15px;
+  }
+  input, button {
+    padding: 10px;
+  }
+  }
