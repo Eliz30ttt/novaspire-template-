@@ -19,7 +19,6 @@ body {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .login-container:hover, .profile-container:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 20px rgba(0,0,0,0.15);
@@ -155,3 +154,29 @@ button, .primary-btn, .secondary-btn {
 
 /* Dashboard action buttons spacing */
 .dashboard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+
+/* Toast notifications */
+.toast {
+  visibility: hidden;
+  min-width: 200px;
+  background-color: #003087;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px 20px;
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 50px;
+  transform: translateX(-50%);
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.4s, bottom 0.4s;
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  bottom: 80px;
+}
