@@ -4,119 +4,211 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaBank Dashboard</title>
-<link rel="stylesheet" href="style.css">
 <style>
-  /* Modern PayPal-style dashboard styles */
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f5f7fa;
-    margin: 0;
-    padding: 0;
-  }
-  header {
-    background-color: #003366;
-    color: white;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header h1 {
-    margin: 0;
-    font-size: 24px;
-  }
-  header button {
-    background-color: #ffcc00;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  main {
-    padding: 30px;
-  }
-  .balance-card {
-    background: #003366;
-    color: white;
-    border-radius: 15px;
-    padding: 30px;
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .actions {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-  .action-btn {
-    flex: 1;
-    background-color: #ffcc00;
-    color: #003366;
-    border: none;
-    padding: 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    font-size: 16px;
-  }
-  .transactions {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-  }
-  .transactions h2 {
-    margin-top: 0;
-  }
-  .transaction {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f7fb;
+  margin: 0;
+}
+
+header {
+  background: #003366;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header button {
+  background: #ffcc00;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+main {
+  padding: 30px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.balance-card {
+  background: linear-gradient(135deg,#003366,#0055aa);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  font-size: 26px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.action-btn {
+  background: white;
+  border: 2px solid #003366;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.action-btn:hover {
+  background: #003366;
+  color: white;
+}
+
+.transactions {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.transaction {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
 </style>
 </head>
+
 <body>
-  <header>
-    <h1>Welcome, Kelvin Brooks</h1>
-    <button id="logoutBtn">Logout</button>
-  </header>
 
-  <main>
-    <div class="balance-card">
-      <span>Current Balance</span>
-      <span id="balance">$12,345.67</span>
-    </div>
+<header>
+  <h2>NovaBank Dashboard</h2>
+  <button onclick="logout()">Logout</button>
+</header>
 
-    <div class="actions">
-      <button class="action-btn" onclick="alert('Send Money Clicked')">Send Money</button>
-      <button class="action-btn" onclick="alert('Receive Money Clicked')">Receive Money</button>
-      <button class="action-btn" onclick="alert('Add Money Clicked')">Add Money</button>
-      <button class="action-btn" onclick="alert('Request Money Clicked')">Request Money</button>
-    </div>
+<main>
 
-    <div class="transactions">
-      <h2>Recent Transactions</h2>
-      <div class="transaction">
-        <span>Payment to Alice</span>
-        <span>-$120.00</span>
-      </div>
-      <div class="transaction">
-        <span>Received from Bob</span>
-        <span>+$500.00</span>
-      </div>
-      <div class="transaction">
-        <span>Payment to Netflix</span>
-        <span>-$15.99</span>
-      </div>
-    </div>
-  </main>
+<div class="balance-card">
+  <span>Current Balance</span>
+  <span id="balance">$0.00</span>
+</div>
 
-  <script type="module" src="./js/dashboard.js"></script>
+<div class="actions">
+  <button class="action-btn" onclick="sendMoney()">Send</button>
+  <button class="action-btn" onclick="receiveMoney()">Receive</button>
+  <button class="action-btn" onclick="addMoney()">Add Funds</button>
+  <button class="action-btn" onclick="requestMoney()">Request</button>
+</div>
+
+<div class="transactions">
+  <h3>Recent Transactions</h3>
+  <div id="transactionList"></div>
+</div>
+
+</main>
+
+<script>
+let balance = localStorage.getItem("balance");
+let transactions = JSON.parse(localStorage.getItem("transactions"));
+
+if (!balance) {
+  balance = 10000;
+  localStorage.setItem("balance", balance);
+}
+
+if (!transactions) {
+  transactions = [];
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+function updateUI() {
+  document.getElementById("balance").innerText = "$" + parseFloat(balance).toFixed(2);
+  const list = document.getElementById("transactionList");
+  list.innerHTML = "";
+
+  transactions.slice().reverse().forEach(tx => {
+    const div = document.createElement("div");
+    div.className = "transaction";
+    div.innerHTML = `<span>${tx.description}</span><span>${tx.amount}</span>`;
+    list.appendChild(div);
+  });
+}
+
+function saveData() {
+  localStorage.setItem("balance", balance);
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
+
+function sendMoney() {
+  let amount = parseFloat(prompt("Enter amount to send:"));
+  if (!amount || amount <= 0) return;
+
+  if (amount > balance) {
+    alert("Insufficient funds.");
+    return;
+  }
+
+  balance -= amount;
+  transactions.push({
+    description: "Sent Payment",
+    amount: "-$" + amount.toFixed(2)
+  });
+
+  saveData();
+  updateUI();
+}
+
+function receiveMoney() {
+  let amount = parseFloat(prompt("Enter amount received:"));
+  if (!amount || amount <= 0) return;
+
+  balance += amount;
+  transactions.push({
+    description: "Received Payment",
+    amount: "+$" + amount.toFixed(2)
+  });
+
+  saveData();
+  updateUI();
+}
+
+function addMoney() {
+  let amount = parseFloat(prompt("Enter amount to add:"));
+  if (!amount || amount <= 0) return;
+
+  balance += amount;
+  transactions.push({
+    description: "Added Funds",
+    amount: "+$" + amount.toFixed(2)
+  });
+
+  saveData();
+  updateUI();
+}
+
+function requestMoney() {
+  let amount = parseFloat(prompt("Enter requested amount:"));
+  if (!amount || amount <= 0) return;
+
+  transactions.push({
+    description: "Money Requested",
+    amount: "$" + amount.toFixed(2)
+  });
+
+  saveData();
+  updateUI();
+}
+
+function logout() {
+  window.location.href = "login.html";
+}
+
+updateUI();
+</script>
+
 </body>
-</html>
+  </html>
