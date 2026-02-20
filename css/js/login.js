@@ -1,44 +1,19 @@
-import {
-  auth,
-  db,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  doc,
-  setDoc
-} from "./firebase.js";
+import { auth } from "./firebase.js";
+import { signInWithEmailAndPassword } from 
+"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-const errorMsg = document.getElementById("errorMsg");
+const form = document.getElementById("loginForm");
 
-registerBtn.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-  if(!email||!password) return alert("Enter email & password");
-  try{
-    const userCred = await createUserWithEmailAndPassword(auth,email,password);
-    await setDoc(doc(db,"users",userCred.user.uid),{
-      email: email,
-      balance: 5000,
-      transactions: [],
-      createdAt: new Date()
-    });
-    window.location.href="dashboard.html";
-  }catch(err){
-    errorMsg.innerText = err.message;
-  }
-});
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-loginBtn.addEventListener("click", async () => {
-  const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
-  if(!email||!password) return alert("Enter email & password");
-  try{
-    await signInWithEmailAndPassword(auth,email,password);
-    window.location.href="dashboard.html";
-  }catch(err){
-    errorMsg.innerText = err.message;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.href = "dashboard.html";
+  } catch (error) {
+    alert(error.message);
   }
 });
