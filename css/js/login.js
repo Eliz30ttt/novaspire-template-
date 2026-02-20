@@ -1,8 +1,11 @@
 import { auth } from "./firebase.js";
-import { signInWithEmailAndPassword } from 
-"https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signInWithEmailAndPassword } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+console.log("Login JS Loaded");
 
 const form = document.getElementById("loginForm");
+const errorMessage = document.getElementById("errorMessage");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -14,6 +17,6 @@ form.addEventListener("submit", async (e) => {
     await signInWithEmailAndPassword(auth, email, password);
     window.location.href = "dashboard.html";
   } catch (error) {
-    alert(error.message);
+    errorMessage.textContent = error.message;
   }
 });
