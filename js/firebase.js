@@ -1,17 +1,14 @@
-// Import Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 
-// Your Firebase config (REPLACE WITH YOURS)
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDdmF4zDEB-QPu7ABzsjSX-39zj4CIHhpc",
+  authDomain: "novabank-prod.firebaseapp.com",
+  projectId: "novabank-prod",
+  storageBucket: "novabank-prod.firebasestorage.app",
+  messagingSenderId: "419423769358",
+  appId: "1:419423769358:web:67c2f7ab8f5f60222dbd5f"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
